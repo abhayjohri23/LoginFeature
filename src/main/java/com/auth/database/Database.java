@@ -1,4 +1,4 @@
-package com.database;
+package com.auth.database;
 
 import com.auth.DataSet;
 
@@ -19,5 +19,11 @@ public class Database {
     }
     public boolean signUp(String userName,String password,Connection con){
         return true;
+    }
+    public boolean updateCredentials(String userName,String password){
+        return false;
+    }
+    public boolean deleteAccount(){
+        return false;
     }
 }
