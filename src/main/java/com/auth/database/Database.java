@@ -2,28 +2,65 @@ package com.auth.database;
 
 import com.auth.DataSet;
 
-import java.sql.Connection;
+import java.sql.*;
 
 public class Database {
-    public boolean createUser(Connection con){
+    public static boolean createUser(Connection con){
         return false;
     }
-    public boolean isUserPresent(Connection con){
-        return false;
-    }
-    public boolean isPasswordCorrect(Connection con){
-        return false;
-    }
-    public DataSet login(String userName){
-        return null;
-    }
-    public boolean signUp(String userName,String password,Connection con){
+    public static boolean isUserPresent(Connection con,String userName) {
+        try{
+            Statement ping = con.createStatement();
+            ping.execute("USE USERBASE");
+        }catch(Exception e){
+            System.out.println("Database issues");
+        }
+
+        try{
+            String userQuery = "SELECT * FROM USERS WHERE USERNAME=?";
+            PreparedStatement stmt = con.prepareStatement(userQuery);
+            stmt.setString(1, userName);
+            stmt.execute();
+        }catch(SQLException e){
+            e.printStackTrace();
+            return false;
+        }
         return true;
     }
-    public boolean updateCredentials(String userName,String password){
+    public static boolean isPasswordCorrect(Connection con,String userName,String password){
+        try{
+            Statement ping = con.createStatement();
+            ping.execute("USE USERBASE");
+        }catch(Exception e){
+            System.out.println("Database issues");
+        }
+
+        try{
+            String userQuery = "SELECT * FROM USERS WHERE USERNAME=?";
+            PreparedStatement stmt = con.prepareStatement(userQuery);
+            stmt.setString(1, userName);
+            ResultSet set = stmt.executeQuery();
+
+            if(!set.next())
+                return false;
+            System.out.println(set.getString("pswd"));
+            return set.getString("pswd").equals(password);
+
+        }catch(SQLException e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+    public static DataSet login(String userName){
+        return null;
+    }
+    public static boolean signUp(String userName,String password,Connection con){
+        return true;
+    }
+    public static boolean updateCredentials(String userName,String password){
         return false;
     }
-    public boolean deleteAccount(){
+    public static boolean deleteAccount(){
         return false;
     }
 }

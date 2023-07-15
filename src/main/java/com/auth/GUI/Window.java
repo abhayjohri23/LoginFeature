@@ -1,13 +1,20 @@
 package com.auth.GUI;
 
+import com.auth.DataSet;
+import com.auth.database.ConnectionProvider;
+import com.auth.database.Database;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.TimeUnit;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.Arrays;
+
+import static java.awt.BorderLayout.SOUTH;
 import static java.awt.Color.BLUE;
 
 
@@ -40,7 +47,7 @@ public class Window {
         btn.setBorderPainted(true);
 
         frame.setBackground(bgColor);
-        frame.setLocation(200,200);
+        frame.setLocation(550,100);
 
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(3,0));
@@ -55,7 +62,7 @@ public class Window {
         JPanel bottomPanel = new JPanel();
         bottomPanel.setLayout(new GridLayout(4,0));
 
-        JButton signUpButton = new JButton("Create an account");
+        JButton signUpButton = new JButton("Create a new account");
         signUpButton.setBorder(new EmptyBorder(0,0,0,0));
         signUpButton.setBackground(bgColor);
         signUpButton.setFont(new Font("Times New Roman", Font.PLAIN, 16));
@@ -77,9 +84,45 @@ public class Window {
 
         frame.setVisible(true);
         frame.setEnabled(true);
+
+        btn.addActionListener((actionEvent)->{
+            String userName = textField.getText();
+            if(userName == null || userName.length() == 0)          return ;
+
+            if(passwordField.getPassword() == null)                 return ;
+            String password = new String(passwordField.getPassword());
+
+            if(password.length() == 0)                              return ;
+
+            try {
+                Connection con = ConnectionProvider.getConnection();
+
+                if(!Database.isUserPresent(con,userName)){
+                    showLog("username",'e');
+                    System.out.println("Error");
+                    return ;
+                }
+                if(!Database.isPasswordCorrect(con,userName,password)){
+                    showLog("password",'e');
+                    System.out.println("Error");
+                    return ;
+                }
+
+                DataSet dataSet = Database.login(userName);                 //Use case: Will/Can be used for storage of data
+                showLog("username",'s');
+
+
+            } catch (SQLException e) {
+                System.out.println("SQL Exception");
+            }
+        });
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         return ;
+    }
+
+    private static void showLog(String queryParam,char messageType) {
+        JOptionPane.showMessageDialog(new JFrame(),(messageType == 's') ? "Successfully Logged in" : "Username or password is incorrect");
     }
 
 }

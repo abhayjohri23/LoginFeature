@@ -15,19 +15,21 @@ public class DataSet {
     private String firstName;
     private String lastName;
     private String userName;
-    private Date dateOfJoining;
+    private String password;
     private Date dateOfBirth;
     private List<URL> socialHandles = new ArrayList<>();
     private String shortDescription;
-    private Image image;
+    private String Avatar;
 
-    public DataSet(String firstName,String lastName,String userName,Date doj,Date dob,List<URL> handles,String desc){
+    public DataSet(String firstName,String lastName,String userName,String password,Date dob,List<URL> handles,String desc,String Avatar){
         this.firstName = firstName;
         this.lastName = lastName;
         this.userName = userName;
         this.socialHandles = handles;
         this.dateOfBirth = dob;
-        this.dateOfJoining = doj;
+        this.password = password;
+        this.shortDescription = desc;
+        this.Avatar = Avatar;
     }
 
 }
