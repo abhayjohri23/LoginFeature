@@ -1,8 +1,14 @@
 package com.auth.GUI;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
+
+import static java.awt.Color.BLUE;
 
 
 public class Window {
@@ -11,7 +17,7 @@ public class Window {
 
     public static void openWindow(){
         frame.setLayout(new GridLayout(3,0));
-        frame.setBounds(200,200,300,390);
+        frame.setBounds(200,200,320,450);
         Window.loadFeatures();
     }
 
@@ -22,35 +28,52 @@ public class Window {
         textField.setBackground(bgColor);
 
         JPasswordField passwordField = new JPasswordField();
-        passwordField.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Password", TitledBorder.LEFT, TitledBorder.TOP));
-        passwordField.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+        Border customBorder = BorderFactory.createEtchedBorder();
+
+        passwordField.setBorder(BorderFactory.createTitledBorder(customBorder, "Password", TitledBorder.LEFT, TitledBorder.TOP));
+        passwordField.setFont(new Font("Times New Roman", Font.PLAIN, 15));
         passwordField.setBackground(bgColor);
 
         JButton btn = new JButton();
         btn.setText("Login");
+        btn.setFocusPainted(false);
+        btn.setBorderPainted(true);
 
         frame.setBackground(bgColor);
         frame.setLocation(200,200);
 
         JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setLayout(new GridLayout(3,0));
 
-        panel.add(textField);
-        panel.add(passwordField);
-        panel.add(btn);
+        panel.add(textField,Component.CENTER_ALIGNMENT);
+        panel.add(passwordField,Component.CENTER_ALIGNMENT);
+        panel.add(btn,Component.CENTER_ALIGNMENT);
+
         panel.setBackground(bgColor);
 
         JLabel topLabel = new JLabel();
-        JLabel bottomLabel = new JLabel();
+        JPanel bottomPanel = new JPanel();
+        bottomPanel.setLayout(new GridLayout(4,0));
+
+        JButton signUpButton = new JButton("Create an account");
+        signUpButton.setBorder(new EmptyBorder(0,0,0,0));
+        signUpButton.setBackground(bgColor);
+        signUpButton.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+        signUpButton.setForeground(BLUE);
+        signUpButton.setFocusPainted(false);
+        signUpButton.setBorderPainted(false);
+        signUpButton.setContentAreaFilled(false);
+
+        bottomPanel.add(signUpButton);
 
         topLabel.setBackground(bgColor);
         String url="E:\\icons\\Login label.jpg";
         topLabel.setIcon(new ImageIcon(url));
-        bottomLabel.setBackground(bgColor);
+        bottomPanel.setBackground(bgColor);
 
         frame.add(topLabel,0);
         frame.add(panel,1);
-        frame.add(bottomLabel,2);
+        frame.add(bottomPanel,2);
 
         frame.setVisible(true);
         frame.setEnabled(true);
