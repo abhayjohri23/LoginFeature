@@ -43,7 +43,6 @@ public class Database {
 
             if(!set.next())
                 return false;
-            System.out.println(set.getString("pswd"));
             return set.getString("pswd").equals(password);
 
         }catch(SQLException e){
