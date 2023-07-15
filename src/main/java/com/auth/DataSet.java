@@ -1,20 +1,30 @@
 package com.auth;
 
-public class DataSet {
-    private long userID;
-    private String userName;
+import lombok.Getter;
+import lombok.Setter;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
-    //Getters and Setters
-    public void setUserID(long userID){
-        this.userID = userID;
-    }
-    public void setUserName(String userName){
+@Getter @Setter
+public class DataSet {
+
+    private String firstName;
+    private String lastName;
+    private String userName;
+    private Date dateOfJoining;
+    private Date dateOfBirth;
+    private List<URL> socialHandles = new ArrayList<>();
+    private String shortDescription;
+
+    public DataSet(String firstName,String lastName,String userName,Date doj,Date dob,List<URL> handles,String desc){
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.userName = userName;
+        this.socialHandles = handles;
+        this.dateOfBirth = dob;
+        this.dateOfJoining = doj;
     }
-    public long getUserID(){
-        return userID;
-    }
-    public String userName(){
-        return this.userName;
-    }
+
 }
